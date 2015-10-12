@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+</head>
+<body>
+<textarea id="txt"></textarea>
+<input type="button" id="btn" value="Click"/>
+
+<div style="width:300px;height:600px;border:1px solid green;">
+    <ul id="content">
+
+    </ul>
+</div>
+</body>
+<script type="text/javascript">
+    var contentUl = document.getElementById("content");
+    var wsServer = 'ws://swoole.local:9501';
+    var websocket = new WebSocket(wsServer);
+
+    websocket.onopen = function (evt) {
+        var msg = evt.data;
+        console.log(msg);
+        showMessage(msg);
+    };
+
+    websocket.onclose = function (evt) {
+        console.log("Disconnected");
+    };
+    websocket.onmessage = function (evt) {
+        var msg = 'Retrieved data from server: ' + evt.data;
+        console.log(msg);
+        showMessage(msg);
+    };
+
+    websocket.onerror = function (evt, e) {
+        console.log('Error occured: ' + evt.data);
+    };
+
+    document.getElementById("btn").onclick = function () {
+        var txt = document.getElementById("txt").value;
+        websocket.send(txt);
+    };
+    function showMessage(msg) {
+        var li = document.createElement("li");
+        li.innerHTML = msg;
+        contentUl.appendChild(li);
+    }
+</script>
+</html>
