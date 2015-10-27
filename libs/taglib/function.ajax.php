@@ -10,7 +10,7 @@ function smarty_function_ajax($params, &$smarty)
 	}
 	else
 	{
-		$js = "<script type='text/javascript' src='/libs/code/js/jquery.js'></script>\n";
+		$js = "<script type='text/javascript' src='/libs/code/js/jquery.min.js'></script>\n";
 		$js .= "<script type='text/javascript' src='/libs/code/js/ajax.js'></script>";
 	}
 	return $js;

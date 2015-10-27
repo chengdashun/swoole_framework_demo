@@ -96,7 +96,7 @@ class Swoole
         'log' => true,
     );
 
-    static $default_controller = array('controller' => 'page', 'view' => 'index');
+    static $default_controller = array('controller' => 'index', 'view' => 'index');
 
     static $charset = 'utf-8';
     static $debug = false;
