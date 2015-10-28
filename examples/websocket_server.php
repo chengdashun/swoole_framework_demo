@@ -7,6 +7,12 @@ class WebSocket extends Swoole\Protocol\WebSocket
 {
     protected $message;
 
+
+    private $bindFlag = array(
+        '186' => '165',
+        '165' => '186',
+    );
+
     /**
      * @param     $serv swoole_server
      * @param int $worker_id
@@ -45,21 +51,57 @@ class WebSocket extends Swoole\Protocol\WebSocket
     {
         $this->log("onMessage: " . $client_id . ' = ' . $ws['message']);
 
+
         $this->message = $ws['message'];
         $response = Swoole::$php->runMVC();
 
         $this->send($client_id, $response);
-        //$this->broadcast($client_id, $ws['message']);
+        $this->broadcast($client_id, $ws['message']);
     }
 
     /**
      * 接收到消息时
      */
+    private $saveData = array();
+
+
     function onMessage($client_id, $ws)
     {
-        $this->log("onMessage: " . $client_id . ' = ' . $ws['message']);
-        $this->send($client_id, 'Server: ' . $ws['message']);
-        //$this->broadcast($client_id, $ws['message']);
+        $resData = json_decode($ws['message'], true);
+        if (!empty($resData['type']) && !empty($resData['src']) && isset($this->bindFlag[$resData['src']])) {
+            switch ($resData['type']) {
+                case 'bind':
+                    $this->saveData[$resData['src']][$client_id] = 1;
+                    $this->saveData[$resData['src']] = array_keys($this->saveData[$resData['src']]);
+                    if ('165' == $resData['src']) {
+                        //向服务端发送指令是否显示按钮
+                        $ids = $this->saveData[$this->bindFlag[$resData['src']]];
+                        if (!empty($ids)) {
+                            foreach ($ids as $id) {
+                                $this->send($id, json_encode(array(
+                                    'type' => 'function',
+                                    'txt' => '1'
+                                )));
+                            }
+                        } else {
+
+                        }
+                    }
+                    break;
+                case 'function':
+                case 'message':
+                    $ids = $this->saveData[$this->bindFlag[$resData['src']]];
+                    if (!empty($ids)) {
+                        foreach ($ids as $id) {
+                            $this->send($id, json_encode(array(
+                                'type' => $resData['type'],
+                                'txt' => $resData['txt']
+                            )));
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     function broadcast($client_id, $msg)
@@ -80,6 +122,11 @@ $AppSvr = new WebSocket();
 $AppSvr->loadSetting(__DIR__ . "/swoole.ini"); //加载配置文件
 $AppSvr->setLogger(new \Swoole\Log\EchoLog(true)); //Logger
 
+$table = new swoole_table(1024);
+$table->column('name', swoole_table::TYPE_STRING, 64);
+$table->create();
+$AppSvr->table = $table;
+
 /**
  * 如果你没有安装swoole扩展，这里还可选择
  * BlockTCP 阻塞的TCP，支持windows平台
@@ -89,6 +136,7 @@ $AppSvr->setLogger(new \Swoole\Log\EchoLog(true)); //Logger
 $enable_ssl = false;
 $server = Swoole\Network\Server::autoCreate('0.0.0.0', 9501, $enable_ssl);
 $server->setProtocol($AppSvr);
+
 //$server->daemonize(); //作为守护进程
 $server->run(array(
     'worker_num' => 1,

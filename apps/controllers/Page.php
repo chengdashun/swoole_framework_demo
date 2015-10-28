@@ -8,7 +8,11 @@ class Page extends Swoole\Controller
     //hello world
     function index()
     {
-        return "default page";
+        return json_encode(array(
+            'src'=>'a',
+            'txt'=>'b',
+        ));
+
     }
 
     function detail()

@@ -265,21 +265,19 @@ body {
             <!-- 载入之后给服务端发消息来确认身份,决定下面按钮是否显示 -->
             <br/>
             <!-- 动态控制按钮是否显示 -->
-            <div class="mp0 box wrap_btn">
+            <div id="step1_btn" class="mp0 box wrap_btn hidden">
                 <a class="btn btn-large btn-success left" href="javascript:void(0);" id="step1_yes">是的</a>
                 <a class="btn btn-large btn-failure right" href="javascript:void(0);" id="step1_no">不是</a>
             </div>
         </div>
         <div id="step2_container" class="mp0 box fix step_container hidden">
             <h1 class="txt_center">生日快乐</h1>
-            <a class="btn btn-large btn-success" href="javascript:void(0);" id="step2_btn">Next</a>
-            <br/>
         </div>
         <div id="step3_container" class="mp0 box fix step_container hidden">
             <h2 class="txt_center">:) 想和我聊聊吗？</h2>
             <br/>
 
-            <div class="mp0 box wrap_btn">
+            <div id="step3_btn" class="mp0 box wrap_btn hidden">
                 <a class="btn btn-large btn-success left" href="javascript:void(0);" id="step3_yes">想</a>
                 <a class="btn btn-large btn-failure right" href="javascript:void(0);" id="step3_no">不</a>
             </div>
