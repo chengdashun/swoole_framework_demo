@@ -7,7 +7,7 @@ if (!defined('WEBPATH')) {
     define('WEBPATH', __DIR__);
 }
 if (!defined('WEBROOT')) {
-    define('WEBROOT', 'http://chengdashun.com');
+    define('WEBROOT', 'http://lihui917.com');
 }
 
 

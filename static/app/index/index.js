@@ -1,4 +1,4 @@
-var wsServer = 'ws://chengdashun.com:9501';
+var wsServer = 'ws://'+hostUrl+':9501';
 var websocket = new WebSocket(wsServer);
 websocket.onopen = function (evt) {
     websocket.send('{"src":"165","type":"bind"}');

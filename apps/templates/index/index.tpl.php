@@ -4,7 +4,7 @@
 <title>~165~</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <style type="text/css">
 /*body {*/
 /*padding-top: 20px;*/
@@ -250,13 +250,16 @@ body {
 }
 
 </style>
-<link rel="stylesheet" href="static/audioplayer/css/audioplayer.css"/>
+<link rel="stylesheet" href="/static/audioplayer/css/audioplayer.css"/>
+<script type="text/javascript">
+    var hostUrl = "<?php echo $host_url; ?>";
+</script>
 </head>
 <body>
 <div class="mp0 box fix t0 wrap">
-    <div class="mp0 box fix t0 header" id="audio_wrapper">
+    <div class="mp0 box fix t0 header hidden" id="audio_wrapper">
         <audio preload="auto" controls id="audio_music">
-            <source src="static/audioplayer/audio/oldboy.mp3">
+            <source src="/static/audioplayer/audio/happybirthday.mp3">
         </audio>
     </div>
     <div class="mp0 box fix t0 bodyer">
@@ -298,9 +301,9 @@ body {
     </div>
 </div>
 </body>
-<script src="static/jquery/jquery.min.js"></script>
+<script src="/static/jquery/jquery.min.js"></script>
 <!--<script src="http://code.jquery.com/jquery.min.js"></script>-->
-<script src="static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script>
     /*
      VIEWPORT BUG FIX
@@ -321,6 +324,6 @@ body {
         }
     }(document));
 </script>
-<script src="static/audioplayer/js/audioplayer.js"></script>
-<script type="text/javascript" src="static/app/index/index.js"></script>
+<script src="/static/audioplayer/js/audioplayer.js"></script>
+<script type="text/javascript" src="/static/app/index/index.js"></script>
 </html>
